@@ -1,1 +1,39 @@
-explanation
+Repository Structure
+- server/
+  - index.js: Node.js Express server implementing the required endpoints and connecting to Firestore (Datastore mode) via @google-cloud/datastore.
+  - package.json / package-lock.json: Node dependencies and scripts.
+- client/
+  - analysis.py: Client-side script (run locally) that measures latency and performs the eventual consistency experiment.
+- Team_HW2.txt: netID
+- IPs.txt: external IPs of both cloud instances (space-separated)
+- Code_HW2.txt: this file
+- Analysis.txt: latency results, eventual consistency misses, and discussion
+
+Server Implementation (server/index.js)
+- Runs an Express server listening on 0.0.0.0:8080.
+- Endpoints:
+  1) GET /greeting
+     - Returns a simple “Hello World!” webpage (HTML).
+  2) POST /register
+     - Accepts JSON body: {"username": "<string>"}.
+     - Creates/overwrites an entity in Firestore (Datastore mode) using kind "User".
+     - The entity key is the username (primary key). Stored properties include:
+       - username (string)
+       - createdAt (timestamp/ISO string, optional)
+  3) GET /list
+     - Queries all entities of kind "User".
+     - Returns JSON: {"users": ["u1", "u2", ...]} (ordering not assumed).
+  4) POST /clear
+     - Deletes all entities of kind "User" (batched deletes to avoid limits).
+     - Returns JSON confirmation.
+
+Cloud Deployment
+- Instance A (us-central1): 34.68.248.167
+- Instance B (europe-west1): 34.78.178.238
+- Both instances run the same server code and connect to the same Firestore database in Datastore mode (same GCP project).
+- No manual replication code is used; GCP handles cross-region replication automatically. Updates made on one instance become visible on the other (eventual consistency).
+
+Analysis Script (client/analysis.py)
+- Part IV-A: Sends at least 10 requests to /register and /list on each instance and reports average latency (ms).
+- Part IV-B: Repeats 100 iterations; each iteration registers a unique username in one region (US) and immediately lists from the other region (EU), counting how many times the new username is not found (“misses”).
+- Output is copied into Analysis.txt.
