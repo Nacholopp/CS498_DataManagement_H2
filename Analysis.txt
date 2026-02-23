@@ -1,0 +1,13 @@
+IV-A Latency (10 req each) [ms]
+US /register avg: 83.26
+EU /register avg: 433.50
+US /list avg:     79.44
+EU /list avg:     393.94
+
+IV-B Eventual Consistency (100 iterations)
+Misses (US register -> EU list immediately): 0 / 100
+
+Discussion:
+The EU instance shows substantially higher latency because requests traverse a longer network path and experience higher round-trip time when accessing the managed datastore service compared to the us-central1 instance. The US instance is closer to the datastore’s configured region and therefore achieves lower latencies for both writes (/register) and reads (/list).
+
+The consistency experiment illustrates the behavior of a distributed NoSQL system: even though replication is eventual, updates can propagate fast enough that immediate cross-region reads often succeed. In this run, all newly registered usernames were visible immediately from the other region (0 misses), indicating replication delay was below the time between the write completing and the subsequent read. This still reflects eventual consistency: immediate visibility is observed empirically but is not a strict guarantee.
