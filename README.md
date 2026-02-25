@@ -9,4 +9,7 @@ NoSQL Data Management with Google Cloud Platform
 
 As I have stopped and resumed the VM they change their external IPs
 
+<img width="1918" height="1078" alt="image" src="https://github.com/user-attachments/assets/04fb1619-b0de-4cbb-8ef6-d90269d1bc48" />
+
+
 
