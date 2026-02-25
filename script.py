@@ -1,7 +1,7 @@
 import time, uuid, statistics, requests
 
-US = "http://34.68.248.167:8080"
-EU = "http://34.78.178.238:8080"
+US = "http://104.198.36.63:8080"
+EU = "http://34.14.64.236:8080"
 
 def timed(method, url, **kwargs):
     t0 = time.perf_counter()
